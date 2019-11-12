@@ -1,7 +1,3 @@
-# arcface-pytorch
-Chainer implement of arcface.
-
-
 # References
 https://github.com/ronghuaiyang/arcface-pytorch
 
