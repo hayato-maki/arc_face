@@ -43,15 +43,15 @@ class ArcFace(chainer.Chain):
         # In case (theta+margin)>pi, use cosface instead.
         phi = F.where(cos.array > self.bound, phi, cos - self.margin_cosface)
 
-        # Diagonal elements are positive pairs: cos(theta+margin)).
+        # Diagonal elements are positive pairs: cos(theta+margin)
         # Other elements are negative pairs: cos(theta)        
-        xp = feature_a.xp
+        xp = feature_a.xp  # xp is numpy if CPU is used. Otherwise (gpu is used), it's cupy.
         identity_mat = xp.eye(len_batch, dtype=xp.bool)
         phi = self.temperature * F.where(identity_mat, phi, cos)
 
-        # Generate positive labels
-        label = xp.array(range(len_batch))
-        return F.softmax_cross_entropy(phi, label)
+        
+        label = xp.array(range(len_batch))  # Generate positive labels
+        return F.softmax_cross_entropy(phi, label)  # Loss Caluclation
 
     def extract_feature(self, batch, feature_extractor):
         return F.normalize(feature_extractor(batch), axis=0)
