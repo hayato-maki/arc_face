@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
     resnet = ResNet50(pretrained_model='imagenet')
     fc_dim = 500
-    resnet.fc6 = L.Linear(None, fc_dim)
+    resnet.fc6 = L.Linear(None, fc_dim)  # change the number of fc layer to 500
 
     temp = 30
     margin = 0.5
