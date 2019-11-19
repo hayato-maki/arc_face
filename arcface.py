@@ -8,11 +8,12 @@ class ArcFace(chainer.Chain):
     def __init__(self, temperature=30, margin=0.5, *feature_extractors):
         super(ArcFace, self).__init__()
         
-        if len(feature_extractors) > 1:  # CNNs don't share parameters.
-            self.fe0, self.fe1 = feature_extractors
-        else: # CNNs shares parameters.
-            self.fe0 = feature_extractors[0]
-            self.fe1 = self.fe0
+        with self.init_scope():
+            if len(feature_extractors) > 1:  # CNNs don't share parameters.
+                self.fe0, self.fe1 = feature_extractors
+            else: # CNNs shares parameters.
+                self.fe0 = feature_extractors[0]
+                self.fe1 = self.fe0
 
         self.temperature = temperature  # softmax temepature
         self.margin = margin
